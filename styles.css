@@ -1,144 +1,205 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #121212;
+    background-color: #1c2526;
     color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
+    background-color: #2d3839;
+    border-radius: 20px;
+    padding: 20px;
     width: 100%;
-    max-width: 400px;
-    background-color: #1e1e1e;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
 }
 
-.chat-header {
-    background-color: #ffeb3b;
-    padding: 15px;
+.header {
     text-align: center;
-    color: #121212;
+    margin-bottom: 20px;
 }
 
-.chat-header h1 {
+h1, h2 {
+    color: #ffffff;
     margin: 0;
+    font-weight: 600;
+}
+
+h1 {
     font-size: 24px;
 }
 
-.chat-header p {
-    margin: 5px 0 0;
-    font-size: 14px;
+h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
-.chat-box {
-    flex: 1;
+.car-details {
+    margin-bottom: 20px;
+}
+
+.editable-field {
+    background-color: #3a4647;
+    border-radius: 12px;
     padding: 15px;
-    overflow-y: auto;
-    border-bottom: 1px solid #333;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.message {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.editable-field .label {
+    font-size: 14px;
+    color: #a0a0a0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editable-field .label::before {
+    content: attr(data-icon);
+    background-color: #4a5657;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="url"] {
+    background-color: #4a5657;
+    border: none;
+    border-radius: 8px;
     padding: 10px;
-    border-radius: 10px;
-    max-width: 80%;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.5s ease forwards;
+    color: #ffffff;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.bot-message {
-    background-color: #333;
-    align-self: flex-start;
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="date"]::placeholder,
+input[type="url"]::placeholder {
+    color: #a0a0a0;
 }
 
-.user-message {
-    background-color: #ffeb3b;
-    color: #121212;
-    align-self: flex-end;
-    margin-left: auto;
+.info-section {
+    margin-bottom: 20px;
 }
 
-.options {
+.info-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.info-item {
+    background-color: #3a4647;
+    border-radius: 12px;
     padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.option-button {
-    padding: 10px;
-    background-color: #ffeb3b;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.info-item .icon {
+    background-color: #4a5657;
+    border-radius: 8px;
+    padding: 6px;
     font-size: 16px;
-    text-align: left;
-    color: #121212;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
 }
 
-.option-button:hover {
-    background-color: #fdd835;
-    transform: scale(1.02);
-}
-
-.new-chat-button {
-    padding: 10px;
-    background-color: #ffeb3b;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    color: #121212;
-    margin: 15px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: none;
-}
-
-.new-chat-button:hover {
-    background-color: #fdd835;
-    transform: scale(1.02);
-}
-
-.author {
-    text-align: center;
-    padding: 10px;
+.info-item .label {
     font-size: 14px;
-    color: #ffeb3b;
-    opacity: 0.7;
+    color: #a0a0a0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.author a {
-    color: #ffeb3b;
-    text-decoration: none;
+.timers-section {
+    margin-top: 20px;
 }
 
-.author a:hover {
-    text-decoration: underline;
+.timer {
+    background-color: #3a4647;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
+.timer .icon {
+    background-color: #4a5657;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+}
+
+.timer .label {
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+.timer .value {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* iOS-style hover effects */
+@media (hover: hover) {
+    .editable-field:hover,
+    .info-item:hover,
+    .timer:hover {
+        background-color: #465152;
+        transition: background-color 0.2s ease;
     }
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="url"] {
+        font-size: 14px;
+    }
 }
