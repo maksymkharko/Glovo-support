@@ -1,299 +1,91 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Information Manager</title>
-    <style>
-        :root {
-            --background-primary: #1e1e1e;
-            --background-secondary: #2c2c2c;
-            --card-background: #2c2c2c;
-            --border-color: #444;
-            --text-primary: #fff;
-            --text-secondary: #bbb;
-            --accent-color: #007bff;
-            --error-color: #ff4444;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--background-primary);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .app-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: var(--background-secondary);
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .edit-button {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 12px;
-            background-color: var(--card-background);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .icon {
-            background-color: var(--background-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 16px;
-            padding: 8px 0;
-            border-bottom: 1px solid transparent;
-        }
-
-        input:focus {
-            outline: none;
-            border-bottom-color: var(--accent-color);
-        }
-
-        .timer-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .timer-card {
-            background: var(--card-background);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .timer-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .timer {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--accent-color);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .save-button {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-top: 25px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .save-button:hover {
-            opacity: 0.9;
-        }
-
-        .insurance-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            word-break: break-all;
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
+    <title>Car Info Manager</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app-container">
+    <div class="container">
         <div class="header">
-            <h1>Информация об авто</h1>
-            <button class="edit-button">✏️</button>
+            <h1>🚗 Car Information</h1>
         </div>
-
-        <div class="input-group">
-            <div class="icon">🚗</div>
-            <input type="text" id="car-brand" placeholder="Марка автомобиля">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">📝</div>
-            <input type="text" id="car-model" placeholder="Модель">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">🔢</div>
-            <input type="text" id="car-number" placeholder="Гос. номер">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">🆔</div>
-            <input type="text" id="vin" placeholder="VIN код">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">📅</div>
-            <input type="date" id="oil-change" placeholder="Последняя замена масла">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">⏱️</div>
-            <input type="number" id="mileage" placeholder="Пробег (км)">
-        </div>
-
-        <div class="input-group">
-            <div class="icon">🔗</div>
-            <input type="url" id="insurance-link" placeholder="Ссылка на страховку">
-        </div>
-
-        <div class="timer-section">
-            <div class="timer-card">
-                <div class="timer-label">Страховка</div>
-                <div class="timer" id="insurance-timer">0 дн. 0 ч.</div>
-                <input type="date" id="insurance-date" class="date-input">
-                <a href="#" id="insurance-link-display" class="insurance-link" target="_blank"></a>
+        <div class="car-details">
+            <div class="editable-field" id="car-brand">
+                <span class="label">🏷️ Brand</span>
+                <input type="text" placeholder="Enter car brand" data-key="brand">
             </div>
-
-            <div class="timer-card">
-                <div class="timer-label">Техобслуживание</div>
-                <div class="timer" id="service-timer">0 дн. 0 ч.</div>
-                <input type="date" id="service-date" class="date-input">
+            <div class="editable-field" id="car-model">
+                <span class="label">📝 Model</span>
+                <input type="text" placeholder="Enter car model" data-key="model">
+            </div>
+            <div class="editable-field" id="car-plate">
+                <span class="label">🔢 Plate Number</span>
+                <input type="text" placeholder="Enter plate number" data-key="plate">
             </div>
         </div>
-
-        <button class="save-button">Сохранить все данные</button>
+        <div class="info-section">
+            <h2>📋 Car Details</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="icon">🔑</span>
+                    <span class="label">VIN</span>
+                    <input type="text" placeholder="Enter VIN" data-key="vin">
+                </div>
+                <div class="info-item">
+                    <span class="icon">🛢️</span>
+                    <span class="label">Last Oil Change</span>
+                    <input type="date" data-key="oilChangeDate">
+                    <input type="number" placeholder="Mileage (km)" data-key="oilChangeMileage">
+                </div>
+                <div class="info-item">
+                    <span class="icon">⚙️</span>
+                    <span class="label">Last Timing Belt Change</span>
+                    <input type="date" data-key="timingBeltDate">
+                    <input type="number" placeholder="Mileage (km)" data-key="timingBeltMileage">
+                </div>
+                <div class="info-item">
+                    <span class="icon">📅</span>
+                    <span class="label">Purchase Date</span>
+                    <input type="date" data-key="purchaseDate">
+                </div>
+                <div class="info-item">
+                    <span class="icon">💰</span>
+                    <span class="label">Price</span>
+                    <input type="number" placeholder="Enter price" data-key="price">
+                </div>
+                <div class="info-item">
+                    <span class="icon">🛡️</span>
+                    <span class="label">Insurance End Date</span>
+                    <input type="date" data-key="insuranceEndDate">
+                </div>
+                <div class="info-item">
+                    <span class="icon">🔗</span>
+                    <span class="label">Insurance Link</span>
+                    <input type="url" placeholder="Enter insurance link" data-key="insuranceLink">
+                </div>
+                <div class="info-item">
+                    <span class="icon">🔧</span>
+                    <span class="label">Service End Date</span>
+                    <input type="date" data-key="serviceEndDate">
+                </div>
+            </div>
+        </div>
+        <div class="timers-section">
+            <h2>⏳ Timers</h2>
+            <div class="timer" id="insurance-timer">
+                <span class="icon">🛡️</span>
+                <span class="label">Time until Insurance Expires:</span>
+                <span class="value" id="insurance-time-left">N/A</span>
+            </div>
+            <div class="timer" id="service-timer">
+                <span class="icon">🔧</span>
+                <span class="label">Time until Service Expires:</span>
+                <span class="value" id="service-time-left">N/A</span>
+            </div>
+        </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = {
-                brand: document.getElementById('car-brand'),
-                model: document.getElementById('car-model'),
-                number: document.getElementById('car-number'),
-                vin: document.getElementById('vin'),
-                oilChange: document.getElementById('oil-change'),
-                mileage: document.getElementById('mileage'),
-                insuranceLink: document.getElementById('insurance-link'),
-                insuranceDate: document.getElementById('insurance-date'),
-                serviceDate: document.getElementById('service-date'),
-                insuranceTimer: document.getElementById('insurance-timer'),
-                serviceTimer: document.getElementById('service-timer'),
-                linkDisplay: document.getElementById('insurance-link-display')
-            };
-
-            // Загрузка данных
-            function loadData() {
-                const savedData = JSON.parse(localStorage.getItem('carData')) || {};
-                Object.keys(savedData).forEach(key => {
-                    if (elements[key]) elements[key].value = savedData[key];
-                });
-                updateLinkDisplay();
-                startTimers();
-            }
-
-            // Сохранение данных
-            function saveData() {
-                const data = {
-                    brand: elements.brand.value,
-                    model: elements.model.value,
-                    number: elements.number.value,
-                    vin: elements.vin.value,
-                    oilChange: elements.oilChange.value,
-                    mileage: elements.mileage.value,
-                    insuranceLink: elements.insuranceLink.value,
-                    insuranceDate: elements.insuranceDate.value,
-                    serviceDate: elements.serviceDate.value
-                };
-                localStorage.setItem('carData', JSON.stringify(data));
-                updateLinkDisplay();
-                alert('Данные успешно сохранены!');
-            }
-
-            // Обновление отображения ссылки
-            function updateLinkDisplay() {
-                if (elements.insuranceLink.value) {
-                    elements.linkDisplay.href = elements.insuranceLink.value;
-                    elements.linkDisplay.textContent = 'Ссылка на страховку';
-                } else {
-                    elements.linkDisplay.href = '#';
-                    elements.linkDisplay.textContent = '';
-                }
-            }
-
-            // Таймеры
-            function startTimers() {
-                setInterval(() => {
-                    updateTimer('insurance', elements.insuranceDate.value, elements.insuranceTimer);
-                    updateTimer('service', elements.serviceDate.value, elements.serviceTimer);
-                }, 1000);
-            }
-
-            function updateTimer(type, dateString, displayElement) {
-                if (!dateString) return;
-                
-                const endDate = new Date(dateString);
-                const now = new Date();
-                const diff = endDate - now;
-
-                if (diff > 0) {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    displayElement.textContent = `${days} дн. ${hours} ч.`;
-                } else {
-                    displayElement.textContent = type === 'insurance' ? 'Страховка истекла!' : 'ТО просрочено!';
-                    displayElement.style.color = var(--error-color);
-                }
-            }
-
-            // Обработчики событий
-            document.querySelector('.save-button').addEventListener('click', saveData);
-            elements.insuranceLink.addEventListener('input', updateLinkDisplay);
-
-            // Инициализация
-            loadData();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
