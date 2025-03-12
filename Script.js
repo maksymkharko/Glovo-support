@@ -1,73 +1,88 @@
-// Load data from localStorage when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    loadData();
-    startTimers();
-});
+    const elements = {
+        brand: document.getElementById('car-brand'),
+        model: document.getElementById('car-model'),
+        number: document.getElementById('car-number'),
+        vin: document.getElementById('vin'),
+        oilChange: document.getElementById('oil-change'),
+        mileage: document.getElementById('mileage'),
+        insuranceLink: document.getElementById('insurance-link'),
+        insuranceDate: document.getElementById('insurance-date'),
+        serviceDate: document.getElementById('service-date'),
+        insuranceTimer: document.getElementById('insurance-timer'),
+        serviceTimer: document.getElementById('service-timer'),
+        linkDisplay: document.getElementById('insurance-link-display')
+    };
 
-// Save data to localStorage on input change
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('change', () => {
-        saveData();
-        updateTimers();
-    });
-});
+    // Загрузка данных из localStorage
+    function loadData() {
+        const savedData = JSON.parse(localStorage.getItem('carData')) || {};
+        Object.keys(savedData).forEach(key => {
+            if (elements[key]) elements[key].value = savedData[key];
+        });
+        updateLinkDisplay();
+        startTimers();
+    }
 
-// Function to save data to localStorage
-function saveData() {
-    const data = {};
-    document.querySelectorAll('input[data-key]').forEach(input => {
-        data[input.dataset.key] = input.value;
-    });
-    localStorage.setItem('carData', JSON.stringify(data));
-}
+    // Сохранение данных в localStorage
+    function saveData() {
+        const data = {
+            brand: elements.brand.value,
+            model: elements.model.value,
+            number: elements.number.value,
+            vin: elements.vin.value,
+            oilChange: elements.oilChange.value,
+            mileage: elements.mileage.value,
+            insuranceLink: elements.insuranceLink.value,
+            insuranceDate: elements.insuranceDate.value,
+            serviceDate: elements.serviceDate.value
+        };
+        localStorage.setItem('carData', JSON.stringify(data));
+        updateLinkDisplay();
+        alert('Данные успешно сохранены!');
+    }
 
-// Function to load data from localStorage
-function loadData() {
-    const data = JSON.parse(localStorage.getItem('carData')) || {};
-    document.querySelectorAll('input[data-key]').forEach(input => {
-        if (data[input.dataset.key]) {
-            input.value = data[input.dataset.key];
+    // Обновление отображения ссылки на страховку
+    function updateLinkDisplay() {
+        if (elements.insuranceLink.value) {
+            elements.linkDisplay.href = elements.insuranceLink.value;
+            elements.linkDisplay.textContent = 'Ссылка на страховку';
+        } else {
+            elements.linkDisplay.href = '#';
+            elements.linkDisplay.textContent = '';
         }
-    });
-}
-
-// Function to calculate time difference and update timers
-function updateTimers() {
-    const insuranceEndDate = document.querySelector('input[data-key="insuranceEndDate"]').value;
-    const serviceEndDate = document.querySelector('input[data-key="serviceEndDate"]').value;
-
-    if (insuranceEndDate) {
-        const timeLeft = calculateTimeLeft(insuranceEndDate);
-        document.getElementById('insurance-time-left').textContent = timeLeft;
-    } else {
-        document.getElementById('insurance-time-left').textContent = 'N/A';
     }
 
-    if (serviceEndDate) {
-        const timeLeft = calculateTimeLeft(serviceEndDate);
-        document.getElementById('service-time-left').textContent = timeLeft;
-    } else {
-        document.getElementById('service-time-left').textContent = 'N/A';
+    // Запуск таймеров
+    function startTimers() {
+        setInterval(() => {
+            updateTimer('insurance', elements.insuranceDate.value, elements.insuranceTimer);
+            updateTimer('service', elements.serviceDate.value, elements.serviceTimer);
+        }, 1000);
     }
-}
 
-// Function to calculate time left until a date
-function calculateTimeLeft(endDate) {
-    const now = new Date();
-    const end = new Date(endDate);
-    const diff = end - now;
+    // Обновление таймеров
+    function updateTimer(type, dateString, displayElement) {
+        if (!dateString) return;
+        
+        const endDate = new Date(dateString);
+        const now = new Date();
+        const diff = endDate - now;
 
-    if (diff <= 0) return 'Expired';
+        if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            displayElement.textContent = `${days} дн. ${hours} ч.`;
+        } else {
+            displayElement.textContent = type === 'insurance' ? 'Страховка истекла!' : 'ТО просрочено!';
+            displayElement.style.color = 'var(--error-color)';
+        }
+    }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    // Обработчики событий
+    document.querySelector('.save-button').addEventListener('click', saveData);
+    elements.insuranceLink.addEventListener('input', updateLinkDisplay);
 
-    return `${days}d ${hours}h ${minutes}m`;
-}
-
-// Function to start timers and update every minute
-function startTimers() {
-    updateTimers();
-    setInterval(updateTimers, 60000); // Update every minute
-}
+    // Инициализация
+    loadData();
+});
